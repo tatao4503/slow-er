@@ -1,3 +1,5 @@
 content/pdfs/
 .DS_Store
 slowly.html
+.env
+.venv/

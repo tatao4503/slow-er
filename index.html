@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slowly — 숏폼을 천천히 다시 보는 곳</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <meta name="description" content="지나가는 세상이 아닌, 멈춰지는 순간을 위해. 빠르게 소비한 숏폼을 천천히 다시 보고 기록하는 디지털 디톡스 플랫폼.">
 <meta name="theme-color" content="#0a0a08">
@@ -14,7 +15,6 @@
 <meta property="og:description" content="빠르게 소비한 숏폼을 천천히 다시 보고, 오늘 지나쳐온 장면을 기록합니다.">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="Slowly">
-<!-- TODO: 배포 후 아래 두 줄을 실제 URL로 교체 -->
 <meta property="og:url" content="https://tatao4503.github.io/slow-er">
 <meta property="og:image" content="https://tatao4503.github.io/slow-er/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -26,6 +26,26 @@
 <meta name="twitter:title" content="Slowly — 숏폼을 천천히 다시 보는 곳">
 <meta name="twitter:description" content="빠르게 소비한 숏폼을 천천히 다시 보고, 오늘 지나쳐온 장면을 기록합니다.">
 <meta name="twitter:image" content="https://tatao4503.github.io/slow-er/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Slowly",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "url": "https://tatao4503.github.io/slow-er",
+  "description": "빠르게 소비한 숏폼을 천천히 다시 보고, 오늘 지나쳐온 장면을 기록하는 디지털 디톡스 도구.",
+  "creator": {
+    "@type": "Person",
+    "name": "taopoem"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+  }
+}
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@200;300;400;600&display=swap');
 
@@ -300,6 +320,67 @@
     font-size: 15px;
   }
 
+  .brand-bridge {
+    max-width: 460px;
+    margin: 30px auto 0;
+    color: var(--soft);
+    font-size: 13px;
+    line-height: 2;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1.8s ease 0.6s, transform 1.8s ease 0.6s;
+  }
+
+  .brand-bridge.visible {
+    opacity: 0.68;
+    transform: translateY(0);
+  }
+
+  .brand-bridge em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .hero-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 34px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1.8s ease 0.7s, transform 1.8s ease 0.7s;
+  }
+
+  .hero-actions.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-action {
+    border: 1px solid rgba(152, 144, 132, 0.28);
+    background: rgba(232, 228, 220, 0.025);
+    color: var(--soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 13px 20px;
+    cursor: none;
+    transition: border-color 0.8s ease, color 0.8s ease, background 0.8s ease;
+  }
+
+  .hero-action.primary {
+    border-color: rgba(196, 168, 130, 0.38);
+    color: var(--accent);
+  }
+
+  .hero-action:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(196, 168, 130, 0.06);
+  }
+
   .divider {
     width: 1px;
     height: 88px;
@@ -513,6 +594,94 @@
     border-color: var(--accent);
   }
 
+  .url-error-msg {
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 8px;
+    min-height: 18px;
+    opacity: 0;
+    text-align: left;
+    transition: opacity 0.4s ease;
+  }
+
+  .memo-input-wrap {
+    width: 100%;
+    max-width: 480px;
+    margin: -10px auto 30px;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.28s;
+  }
+
+  .memo-input-wrap.visible { opacity: 1; }
+
+  .memo-input {
+    width: 100%;
+    background: rgba(232, 228, 220, 0.025);
+    border: 1px solid rgba(152, 144, 132, 0.16);
+    color: var(--fg);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 1.6;
+    padding: 13px 16px;
+    outline: none;
+    letter-spacing: 0.04em;
+    transition: border-color 1s ease, background 1s ease;
+    cursor: none;
+  }
+
+  .memo-input::placeholder {
+    color: var(--soft);
+    opacity: 0.58;
+  }
+
+  .memo-input:focus {
+    border-color: rgba(196, 168, 130, 0.6);
+    background: rgba(232, 228, 220, 0.04);
+  }
+
+  .feeling-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 520px;
+    margin: -8px auto 28px;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.34s;
+  }
+
+  .feeling-row.visible { opacity: 1; }
+
+  .feeling-chip {
+    border: 1px solid rgba(152, 144, 132, 0.18);
+    border-radius: 999px;
+    background: rgba(232, 228, 220, 0.018);
+    color: var(--soft);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 12px;
+    font-weight: 200;
+    line-height: 1.4;
+    padding: 8px 12px;
+    cursor: none;
+    transition: border-color 0.8s ease, color 0.8s ease, background 0.8s ease;
+  }
+
+  .feeling-chip:hover,
+  .feeling-chip.active {
+    border-color: rgba(196, 168, 130, 0.5);
+    color: var(--accent);
+    background: rgba(196, 168, 130, 0.07);
+  }
+
+  .action-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
   .slow-btn {
     background: transparent;
     border: 1px solid var(--soft);
@@ -533,6 +702,27 @@
     border-color: var(--accent);
     color: var(--accent);
     box-shadow: 0 0 40px rgba(196, 168, 130, 0.1);
+  }
+
+  .sample-btn {
+    background: rgba(232, 228, 220, 0.025);
+    border: 1px solid rgba(152, 144, 132, 0.24);
+    color: var(--soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    cursor: none;
+    opacity: 0;
+    transition: border-color 1s ease, color 1s ease, opacity 1.4s ease 0.12s;
+  }
+
+  .sample-btn.visible { opacity: 1; }
+
+  .sample-btn:hover {
+    border-color: rgba(196, 168, 130, 0.5);
+    color: var(--accent);
   }
 
   .video-note {
@@ -570,6 +760,18 @@
     text-transform: uppercase;
     background: rgba(232, 228, 220, 0.02);
   }
+
+  .support-note {
+    max-width: 480px;
+    margin: -10px auto 24px;
+    color: var(--soft);
+    font-size: 11px;
+    line-height: 1.9;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.42s;
+  }
+
+  .support-note.visible { opacity: 0.58; }
 
   .slow-response {
     max-width: 520px;
@@ -734,15 +936,42 @@
       gap: 8px;
       margin-top: 32px;
     }
+    .hero-actions { display: grid; }
     .loop-arrow { display: none; }
     .divider { height: 64px; }
     .manifesto { padding: 20px 16px; }
     .video-note,
     .slow-response-body { font-size: 13px; }
     .source-support { margin-bottom: 20px; }
+    .feeling-row { margin-bottom: 22px; }
+    .action-row { display: grid; }
     .slow-response {
       margin-top: 22px;
       padding: 18px 18px 20px;
+    }
+    .insight-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .pilot-grid {
+      grid-template-columns: 1fr;
+    }
+    .pilot-card {
+      min-height: 0;
+      padding: 22px 20px;
+    }
+    .pilot-copy {
+      width: 100%;
+      max-width: 320px;
+    }
+    .insight-item {
+      border-right: none;
+      border-bottom: 1px solid rgba(152, 144, 132, 0.12);
+      padding: 0 0 12px;
+    }
+    .insight-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
     }
     .memory-card {
       grid-template-columns: 1fr;
@@ -760,7 +989,16 @@
     .slider-thumb,
     .slider-input,
     .url-input,
+    .memo-input,
+    .feeling-chip,
     .slow-btn,
+    .sample-btn,
+    .hero-action,
+    .memory-delete,
+    .share-btn,
+    .feedback-btn,
+    .pilot-copy,
+    .memory-action-btn,
     .memory-clear { cursor: auto; }
   }
 
@@ -772,8 +1010,16 @@
   html.touch-mode .slider-thumb,
   html.touch-mode .slider-input,
   html.touch-mode .url-input,
+  html.touch-mode .memo-input,
+  html.touch-mode .feeling-chip,
   html.touch-mode .slow-btn,
+  html.touch-mode .sample-btn,
+  html.touch-mode .hero-action,
+  html.touch-mode .memory-delete,
   html.touch-mode .share-btn,
+  html.touch-mode .feedback-btn,
+  html.touch-mode .pilot-copy,
+  html.touch-mode .memory-action-btn,
   html.touch-mode .memory-clear { cursor: auto; }
 
   @media (hover: none), (pointer: coarse) {
@@ -783,7 +1029,16 @@
     .slider-thumb,
     .slider-input,
     .url-input,
+    .memo-input,
+    .feeling-chip,
     .slow-btn,
+    .sample-btn,
+    .hero-action,
+    .memory-delete,
+    .share-btn,
+    .feedback-btn,
+    .pilot-copy,
+    .memory-action-btn,
     .memory-clear { cursor: auto; }
   }
 
@@ -882,6 +1137,61 @@
     line-height: 1.9;
     margin-bottom: 28px;
     font-weight: 200;
+  }
+
+  .daily-insight {
+    max-width: 520px;
+    margin: 0 auto 26px;
+    padding: 20px;
+    border: 1px solid rgba(152, 144, 132, 0.16);
+    background: rgba(232, 228, 220, 0.025);
+    text-align: left;
+  }
+
+  .daily-insight-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.8;
+    margin-bottom: 14px;
+  }
+
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .insight-item {
+    border-right: 1px solid rgba(152, 144, 132, 0.14);
+    padding-right: 10px;
+  }
+
+  .insight-item:last-child { border-right: none; }
+
+  .insight-value {
+    display: block;
+    color: var(--fg);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .insight-caption {
+    display: block;
+    color: var(--soft);
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  .insight-line {
+    color: rgba(232, 228, 220, 0.68);
+    font-size: 13px;
+    line-height: 1.9;
   }
 
   .share-btn {
@@ -1082,6 +1392,26 @@
     margin-top: 8px;
   }
 
+  .memory-card-note {
+    color: rgba(232, 228, 220, 0.72);
+    font-size: 13px;
+    line-height: 1.9;
+    margin-top: 10px;
+  }
+
+  .memory-card-feeling {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: 10px;
+    border: 1px solid rgba(196, 168, 130, 0.22);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 1.4;
+    padding: 5px 9px;
+    background: rgba(196, 168, 130, 0.04);
+  }
+
   .memory-card-speed {
     align-self: center;
     justify-self: end;
@@ -1097,6 +1427,25 @@
     font-size: 0.45em;
   }
 
+  .memory-delete {
+    grid-column: 1 / -1;
+    justify-self: start;
+    border: none;
+    background: transparent;
+    color: rgba(152, 144, 132, 0.72);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0;
+    cursor: none;
+    transition: color 0.8s ease;
+  }
+
+  .memory-delete:hover {
+    color: var(--accent);
+  }
+
   .memory-empty {
     font-size: 14px;
     color: var(--soft);
@@ -1107,7 +1456,24 @@
 
   .memory-empty.visible { opacity: 0.62; }
 
-  .memory-clear {
+  .memory-storage-note {
+    max-width: 520px;
+    margin: 20px auto 0;
+    color: var(--soft);
+    font-size: 11px;
+    line-height: 1.9;
+    opacity: 0.56;
+  }
+
+  .memory-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .memory-action-btn {
     margin-top: 24px;
     border: 1px solid rgba(152, 144, 132, 0.22);
     background: transparent;
@@ -1121,12 +1487,163 @@
     transition: border-color 0.8s ease, color 0.8s ease, opacity 0.8s ease;
   }
 
-  .memory-clear:hover {
+  .memory-actions .memory-action-btn {
+    margin-top: 0;
+  }
+
+  .memory-action-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
   }
 
+  .memory-import-input { display: none; }
+
   .memory-clear[hidden] { display: none; }
+
+  .feedback-btn {
+    display: inline-block;
+    margin-top: 14px;
+    border: 1px solid rgba(152, 144, 132, 0.22);
+    background: transparent;
+    color: var(--soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    cursor: none;
+    transition: border-color 0.8s ease, color 0.8s ease;
+  }
+
+  .feedback-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .pilot-section {
+    width: min(880px, calc(100vw - 48px));
+    margin: 0 auto;
+    text-align: center;
+    padding: 32px 0;
+  }
+
+  .pilot-kicker {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 18px;
+    opacity: 0;
+    transition: opacity 1.3s ease;
+  }
+
+  .pilot-kicker.visible { opacity: 0.68; }
+
+  .pilot-title {
+    font-size: clamp(26px, 5vw, 48px);
+    font-weight: 200;
+    line-height: 1.55;
+    color: var(--fg);
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 1.4s ease, transform 1.4s ease;
+  }
+
+  .pilot-title.visible {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+
+  .pilot-sub {
+    max-width: 560px;
+    margin: 0 auto 34px;
+    color: var(--soft);
+    font-size: 13px;
+    line-height: 2;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.18s;
+  }
+
+  .pilot-sub.visible { opacity: 0.7; }
+
+  .pilot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .pilot-card {
+    min-height: 220px;
+    padding: 24px 22px;
+    border: 1px solid rgba(152, 144, 132, 0.16);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(196, 168, 130, 0.06), transparent 72%),
+      rgba(232, 228, 220, 0.018);
+    text-align: left;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.2s ease, transform 1.2s ease, border-color 1.2s ease;
+  }
+
+  .pilot-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pilot-card:hover { border-color: rgba(196, 168, 130, 0.34); }
+
+  .pilot-number {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(196, 168, 130, 0.34);
+    border-radius: 50%;
+    color: var(--accent);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+
+  .pilot-card h3 {
+    color: var(--fg);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .pilot-card p {
+    color: var(--soft);
+    font-size: 12px;
+    line-height: 1.9;
+  }
+
+  .pilot-copy {
+    border: 1px solid rgba(196, 168, 130, 0.34);
+    background: rgba(196, 168, 130, 0.06);
+    color: var(--fg);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 13px 22px;
+    cursor: none;
+    opacity: 0;
+    transition: opacity 1.3s ease, border-color 0.8s ease, color 0.8s ease, background 0.8s ease;
+  }
+
+  .pilot-copy.visible { opacity: 0.92; }
+
+  .pilot-copy:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(196, 168, 130, 0.1);
+  }
 </style>
 <script src="https://www.youtube.com/iframe_api" onerror="window.ytApiFailed = true"></script>
 </head>
@@ -1172,6 +1689,14 @@
       <span class="loop-step">느리게 다시 보기</span>
       <span class="loop-arrow">→</span>
       <span class="loop-step">오늘의 장면 기록</span>
+    </div>
+    <p class="brand-bridge" id="brandBridge">
+      <em>Slowly</em>는 슬로, 워가 먼저 내놓는 작은 도구입니다.
+      숏폼을 금지하지 않고, 지나친 장면을 다시 볼 시간을 만듭니다.
+    </p>
+    <div class="hero-actions" id="heroActions">
+      <button class="hero-action primary" id="heroSampleBtn" type="button">30초 샘플 체험</button>
+      <button class="hero-action" id="heroStartBtn" type="button">숏폼 붙잡기</button>
     </div>
   </div>
 </section>
@@ -1221,17 +1746,38 @@
   <div class="video-section">
     <p class="video-prompt" id="videoPrompt">오늘 붙잡고 싶은 숏폼 URL</p>
     <div class="source-support" id="sourceSupport" aria-label="지원하는 숏폼 출처">
-      <span class="source-chip">YouTube Shorts</span>
-      <span class="source-chip">TikTok 기록</span>
-      <span class="source-chip">Reels 기록</span>
+      <span class="source-chip">YouTube 재생 + 기록</span>
+      <span class="source-chip">TikTok 기록 카드</span>
+      <span class="source-chip">Reels 기록 카드</span>
     </div>
+    <p class="support-note" id="supportNote">
+      현재 느린 재생은 YouTube URL에서 우선 지원합니다.
+      TikTok과 Reels는 오늘의 기록 카드로 먼저 저장됩니다.
+    </p>
     <div class="url-input-wrap" id="urlWrap">
       <input type="url" class="url-input" id="urlInput"
              inputmode="url" autocomplete="off" spellcheck="false"
              aria-label="느리게 보고 싶은 URL"
              placeholder="YouTube Shorts, TikTok, Reels URL을 놓아두세요">
+      <p class="url-error-msg" id="urlErrorMsg" aria-live="polite"></p>
     </div>
-    <button class="slow-btn" id="slowBtn" type="button">숏폼을 천천히 붙잡기</button>
+    <div class="memo-input-wrap" id="memoWrap">
+      <input type="text" class="memo-input" id="memoInput"
+             maxlength="80" autocomplete="off" spellcheck="true"
+             aria-label="이 숏폼에서 붙잡고 싶은 한 줄 메모"
+             placeholder="이 장면에서 붙잡고 싶은 한 줄을 남겨도 좋아요">
+    </div>
+    <div class="feeling-row" id="feelingRow" aria-label="이 숏폼이 남긴 감정">
+      <button class="feeling-chip active" type="button" data-feeling="위로" aria-pressed="true">위로</button>
+      <button class="feeling-chip" type="button" data-feeling="멍해짐" aria-pressed="false">멍해짐</button>
+      <button class="feeling-chip" type="button" data-feeling="웃겼는데 허무함" aria-pressed="false">웃겼는데 허무함</button>
+      <button class="feeling-chip" type="button" data-feeling="불안" aria-pressed="false">불안</button>
+      <button class="feeling-chip" type="button" data-feeling="좋아서 저장" aria-pressed="false">좋아서 저장</button>
+    </div>
+    <div class="action-row">
+      <button class="slow-btn" id="slowBtn" type="button">숏폼을 천천히 붙잡기</button>
+      <button class="sample-btn" id="sampleBtn" type="button">샘플로 체험하기</button>
+    </div>
     <p class="video-note" id="videoNote">
       YouTube는 가능한 경우 실제로 느리게 재생하고,
       TikTok과 Reels는 오늘의 기록 카드로 먼저 보관합니다.
@@ -1271,7 +1817,7 @@
     <p class="memory-label" id="memoryLabel">오늘 붙잡은 숏폼</p>
     <h2 class="memory-title" id="memoryTitle">지나간 장면의 작은 보관함</h2>
     <p class="memory-sub" id="memorySub">
-      느리게 보거나 다시 붙잡은 URL이 오늘의 기록으로 남습니다.
+      느리게 보거나 다시 붙잡은 URL과 한 줄 메모가 오늘의 기록으로 남습니다.
       기록은 이 기기에만 조용히 저장됩니다.
     </p>
     <div class="memory-list" id="memoryList" aria-live="polite"></div>
@@ -1279,7 +1825,16 @@
       아직 붙잡은 숏폼이 없습니다.<br>
       위에 URL을 놓아두면 오늘의 첫 장면이 생깁니다.
     </p>
-    <button class="memory-clear" id="memoryClear" type="button" hidden>오늘 기록 비우기</button>
+    <p class="memory-storage-note">
+      개인 기록은 이 브라우저에만 저장됩니다.
+      날짜가 바뀌면 오늘 기록은 새로 시작되니, 남기고 싶은 기록은 내보내기로 보관하세요.
+    </p>
+    <div class="memory-actions">
+      <button class="memory-action-btn" id="memoryExport" type="button">기록 내보내기</button>
+      <button class="memory-action-btn" id="memoryImport" type="button">기록 불러오기</button>
+      <button class="memory-action-btn memory-clear" id="memoryClear" type="button" hidden>오늘 기록 비우기</button>
+      <input class="memory-import-input" id="memoryImportInput" type="file" accept="application/json">
+    </div>
   </div>
 </section>
 
@@ -1294,14 +1849,64 @@
       <p class="speed-avg-label">지금까지의 평균 속도</p>
       <div class="speed-avg-display" id="speedAvgDisplay">1.0<span class="unit">×</span></div>
       <p class="speed-report-msg" id="speedReportMsg"></p>
+      <div class="daily-insight" id="dailyInsight" aria-live="polite">
+        <p class="daily-insight-label">today's slow report</p>
+        <div class="insight-grid">
+          <div class="insight-item">
+            <span class="insight-value" id="insightCount">0</span>
+            <span class="insight-caption">붙잡은 숏폼</span>
+          </div>
+          <div class="insight-item">
+            <span class="insight-value" id="insightRecordSpeed">—</span>
+            <span class="insight-caption">기록 평균 속도</span>
+          </div>
+          <div class="insight-item">
+            <span class="insight-value" id="insightFeeling">—</span>
+            <span class="insight-caption">가장 많이 남은 감정</span>
+          </div>
+        </div>
+        <p class="insight-line" id="insightLine">아직 오늘의 숏폼 기록이 없습니다.</p>
+      </div>
       <button class="share-btn" id="shareBtn" type="button">오늘의 느린 기록 복사하기</button>
+      <button class="feedback-btn" id="feedbackBtn" type="button">피드백 문구 복사하기</button>
       <p class="share-confirm" id="shareConfirm" aria-live="polite">클립보드에 복사되었습니다</p>
     </div>
   </div>
 </section>
 
+<div class="divider" id="divider7"></div>
+
+<section class="scene" id="pilotScene">
+  <div class="pilot-section">
+    <p class="pilot-kicker">pilot test</p>
+    <h2 class="pilot-title">처음 3명에게는 이렇게 보여주세요</h2>
+    <p class="pilot-sub">
+      Slowly가 설명 없이도 이해되는지 확인하는 1분 테스트입니다.
+      샘플을 눌러보게 하고, 실제 숏폼 하나를 기록하게 한 뒤, 마지막에 남은 감각을 물어보세요.
+    </p>
+    <div class="pilot-grid" aria-label="Slowly 첫 사용자 테스트 순서">
+      <article class="pilot-card">
+        <span class="pilot-number">1</span>
+        <h3>30초 샘플을 먼저 눌러보게 하기</h3>
+        <p>설명보다 체험이 먼저입니다. 샘플 체험 버튼이 서비스의 의미를 바로 전달하는지 봅니다.</p>
+      </article>
+      <article class="pilot-card">
+        <span class="pilot-number">2</span>
+        <h3>실제 숏폼 URL 하나를 기록하게 하기</h3>
+        <p>YouTube는 느린 재생, TikTok과 Reels는 기록 카드로 남는다는 차이가 자연스러운지 확인합니다.</p>
+      </article>
+      <article class="pilot-card">
+        <span class="pilot-number">3</span>
+        <h3>남은 감정과 다시 올 이유를 묻기</h3>
+        <p>감정 태그, 한 줄 메모, 오늘의 리포트가 “다시 쓰고 싶은 이유”가 되는지 듣습니다.</p>
+      </article>
+    </div>
+    <button class="pilot-copy" id="pilotCopyBtn" type="button">1분 테스트 스크립트 복사하기</button>
+  </div>
+</section>
+
 <footer class="footer">
-  <p class="footer-text">Slowly. &nbsp; / &nbsp; short-form decompression by taopoem</p>
+  <p class="footer-text">Slowly. &nbsp; / &nbsp; a 슬로, 워 project by taopoem</p>
 </footer>
 
 <!-- Particles -->
@@ -1349,6 +1954,15 @@
       return `https://${trimmed}`;
     }
     return trimmed;
+  }
+
+  function isValidMediaUrl(rawUrl) {
+    try {
+      const parsed = new URL(rawUrl);
+      return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+    } catch(e) {
+      return false;
+    }
   }
 
   function extractYouTubeId(url) {
@@ -1466,7 +2080,7 @@
   }, observerOptions);
 
   // Observe elements
-  document.querySelectorAll('.hero-kicker, .hero-title, .hero-sub, .hero-loop, .divider, .speed-label, .speed-display, .slider-container, .speed-message, .video-prompt, .source-support, .url-input-wrap, .slow-btn, .video-note, .memory-label, .memory-title, .memory-sub, .memory-list, .timer-label, .timer-display, .timer-note')
+  document.querySelectorAll('.hero-kicker, .hero-title, .hero-sub, .hero-loop, .brand-bridge, .hero-actions, .divider, .speed-label, .speed-display, .slider-container, .speed-message, .video-prompt, .source-support, .support-note, .url-input-wrap, .memo-input-wrap, .feeling-row, .slow-btn, .sample-btn, .video-note, .memory-label, .memory-title, .memory-sub, .memory-list, .timer-label, .timer-display, .timer-note, .pilot-kicker, .pilot-title, .pilot-sub, .pilot-card, .pilot-copy')
     .forEach(el => observer.observe(el));
 
   // === Slow text char-by-char reveal ===
@@ -1667,21 +2281,25 @@
     flushSpeedTime();
     const avg = getWeightedAvg();
     const rounded = Math.round(avg * 10) / 10;
-    const recordCount = getShortformRecords().length;
+    const records = getShortformRecords();
+    const summary = getRecordSummary(records);
+    const recordCount = records.length;
     const recordText = recordCount > 0
       ? `오늘 붙잡은 숏폼은 ${recordCount}개.`
       : '아직 붙잡은 숏폼은 없습니다.';
-    const text = `오늘 나의 평균 속도는 ${rounded.toFixed(1)}×.\n${recordText}\n${getReportMsg(avg)}\n— Slowly`;
-    const confirm = document.getElementById('shareConfirm');
-    const copy = () => {
-      confirm.classList.add('show');
-      setTimeout(() => confirm.classList.remove('show'), 2200);
-    };
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(copy).catch(() => fallbackCopy(text, copy));
-    } else {
-      fallbackCopy(text, copy);
-    }
+    const feelingText = summary.topFeeling
+      ? `가장 많이 남은 감정: ${summary.topFeeling}.`
+      : '';
+    const noteText = records[0]?.note ? `가장 최근에 남긴 문장: ${records[0].note}` : '';
+    const text = [
+      `오늘 나의 평균 속도는 ${rounded.toFixed(1)}×.`,
+      recordText,
+      feelingText,
+      noteText,
+      getReportMsg(avg),
+      '— Slowly'
+    ].filter(Boolean).join('\n');
+    copyText(text, '오늘의 기록을 복사했습니다');
   });
 
   // === Ambient sound ===
@@ -1780,6 +2398,13 @@
   const memoryList = document.getElementById('memoryList');
   const memoryEmpty = document.getElementById('memoryEmpty');
   const memoryClear = document.getElementById('memoryClear');
+  const memoryExport = document.getElementById('memoryExport');
+  const memoryImport = document.getElementById('memoryImport');
+  const memoryImportInput = document.getElementById('memoryImportInput');
+  const insightCount = document.getElementById('insightCount');
+  const insightRecordSpeed = document.getElementById('insightRecordSpeed');
+  const insightFeeling = document.getElementById('insightFeeling');
+  const insightLine = document.getElementById('insightLine');
   let shortformRecordsCache = [];
 
   function getPlatformLabel(rawUrl) {
@@ -1819,15 +2444,123 @@
     } catch(e) {}
   }
 
+  function sanitizeImportedRecords(rawRecords) {
+    if (!Array.isArray(rawRecords)) return [];
+    return rawRecords
+      .filter(record => record && typeof record.url === 'string')
+      .filter(record => record.isSample || isValidMediaUrl(record.url))
+      .map((record, index) => ({
+        id: String(record.id || `${Date.now()}-${index}`),
+        url: record.url,
+        displayUrl: String(record.displayUrl || record.url).slice(0, 240),
+        isSample: Boolean(record.isSample),
+        platform: String(record.platform || getPlatformLabel(record.url)).slice(0, 40),
+        mode: String(record.mode || '가져온 기록').slice(0, 40),
+        speed: Math.min(3, Math.max(0.1, Number(record.speed) || 1)),
+        note: String(record.note || '').slice(0, 80),
+        feeling: String(record.feeling || '기록').slice(0, 24),
+        createdAt: Number(record.createdAt) || Date.now(),
+        time: String(record.time || new Intl.DateTimeFormat('ko-KR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }).format(new Date())).slice(0, 20)
+      }))
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .slice(0, 8);
+  }
+
+  function exportShortformRecords() {
+    const records = getShortformRecords();
+    const payload = {
+      app: 'Slowly',
+      version: 1,
+      date: getLocalDateKey(),
+      exportedAt: new Date().toISOString(),
+      records
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `slowly-records-${payload.date}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  function importShortformRecords(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const payload = JSON.parse(String(reader.result || '{}'));
+        if (payload.app !== 'Slowly') {
+          throw new Error('Invalid Slowly backup');
+        }
+        const imported = sanitizeImportedRecords(payload.records || []);
+        const merged = sanitizeImportedRecords([...imported, ...getShortformRecords()]);
+        saveShortformRecords(merged);
+        renderShortformRecords();
+        memoryImport.textContent = imported.length > 0
+          ? `${imported.length}개 불러왔습니다`
+          : '불러올 기록이 없습니다';
+        setTimeout(() => { memoryImport.textContent = '기록 불러오기'; }, 2200);
+      } catch(e) {
+        if (e.message === 'Invalid Slowly backup') {
+          memoryImport.textContent = '올바른 백업 파일이 아닙니다';
+        } else {
+          memoryImport.textContent = '불러오기에 실패했습니다';
+        }
+        setTimeout(() => { memoryImport.textContent = '기록 불러오기'; }, 2200);
+      } finally {
+        memoryImportInput.value = '';
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function getRecordSummary(records = getShortformRecords()) {
+    const count = records.length;
+    const avgRecordSpeed = count
+      ? records.reduce((sum, record) => sum + Number(record.speed || 0), 0) / count
+      : null;
+    const feelingCounts = records.reduce((acc, record) => {
+      const feeling = record.feeling || '기록';
+      acc[feeling] = (acc[feeling] || 0) + 1;
+      return acc;
+    }, {});
+    const topFeeling = Object.entries(feelingCounts)
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || '';
+    const latestNote = records.find(record => record.note)?.note || '';
+    return { count, avgRecordSpeed, topFeeling, latestNote };
+  }
+
+  function updateDailyInsight(records = getShortformRecords()) {
+    const summary = getRecordSummary(records);
+    insightCount.textContent = String(summary.count);
+    insightRecordSpeed.textContent = summary.avgRecordSpeed
+      ? `${summary.avgRecordSpeed.toFixed(1)}×`
+      : '—';
+    insightFeeling.textContent = summary.topFeeling || '—';
+    insightLine.textContent = summary.count === 0
+      ? '아직 오늘의 숏폼 기록이 없습니다.'
+      : summary.latestNote
+        ? `오늘 붙잡은 문장: ${summary.latestNote}`
+        : `오늘 ${summary.count}개의 숏폼을 천천히 붙잡았습니다.`;
+  }
+
   function renderShortformRecords() {
     const records = getShortformRecords();
     memoryList.innerHTML = '';
     memoryEmpty.classList.toggle('visible', records.length === 0);
     memoryClear.hidden = records.length === 0;
+    updateDailyInsight(records);
 
     records.forEach((record) => {
       const card = document.createElement('article');
       card.className = 'memory-card';
+      card.dataset.recordId = record.id;
 
       const main = document.createElement('div');
       main.className = 'memory-card-main';
@@ -1838,12 +2571,17 @@
 
       const urlLine = document.createElement('p');
       urlLine.className = 'memory-card-url';
-      const link = document.createElement('a');
-      link.href = record.url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.textContent = record.url;
-      urlLine.appendChild(link);
+      const displayUrl = record.displayUrl || record.url;
+      if (record.isSample) {
+        urlLine.textContent = displayUrl;
+      } else {
+        const link = document.createElement('a');
+        link.href = record.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = displayUrl;
+        urlLine.appendChild(link);
+      }
 
       const meta = document.createElement('p');
       meta.className = 'memory-card-meta';
@@ -1856,13 +2594,57 @@
       main.appendChild(kicker);
       main.appendChild(urlLine);
       main.appendChild(meta);
+      if (record.note) {
+        const note = document.createElement('p');
+        note.className = 'memory-card-note';
+        note.textContent = record.note;
+        main.appendChild(note);
+      }
+      if (record.feeling) {
+        const feeling = document.createElement('span');
+        feeling.className = 'memory-card-feeling';
+        feeling.textContent = record.feeling;
+        main.appendChild(feeling);
+      }
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'memory-delete';
+      deleteBtn.type = 'button';
+      deleteBtn.textContent = '이 기록 지우기';
+      deleteBtn.dataset.deleteId = record.id;
       card.appendChild(main);
       card.appendChild(speed);
+      card.appendChild(deleteBtn);
       memoryList.appendChild(card);
     });
   }
 
-  function recordShortform(url, mode) {
+  function deleteShortformRecord(id) {
+    const records = getShortformRecords().filter(record => record.id !== id);
+    saveShortformRecords(records);
+    renderShortformRecords();
+  }
+
+  function setActiveFeeling(feeling) {
+    document.querySelectorAll('.feeling-chip').forEach((button) => {
+      const isActive = button.dataset.feeling === feeling;
+      button.classList.toggle('active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  function getSelectedFeeling() {
+    return document.querySelector('.feeling-chip.active')?.dataset.feeling || '기록';
+  }
+
+  document.querySelectorAll('.feeling-chip').forEach((button) => {
+    button.addEventListener('click', () => setActiveFeeling(button.dataset.feeling));
+  });
+
+  function getPendingMemoryNote() {
+    return memoInput ? memoInput.value.trim().slice(0, 80) : '';
+  }
+
+  function recordShortform(url, mode, options = {}) {
     const now = Date.now();
     const records = getShortformRecords();
     const latest = records[0];
@@ -1872,9 +2654,13 @@
     const record = {
       id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
       url,
-      platform: getPlatformLabel(url),
+      displayUrl: options.displayUrl || url,
+      isSample: Boolean(options.isSample),
+      platform: options.platform || getPlatformLabel(url),
       mode,
       speed,
+      note: getPendingMemoryNote(),
+      feeling: options.feeling || getSelectedFeeling(),
       createdAt: now,
       time: new Intl.DateTimeFormat('ko-KR', {
         hour: '2-digit',
@@ -1891,6 +2677,26 @@
     renderShortformRecords();
   });
 
+  memoryList.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-delete-id]');
+    if (!target) return;
+    deleteShortformRecord(target.dataset.deleteId);
+  });
+
+  memoryExport.addEventListener('click', () => {
+    exportShortformRecords();
+    memoryExport.textContent = '기록을 내보냈습니다';
+    setTimeout(() => { memoryExport.textContent = '기록 내보내기'; }, 2200);
+  });
+
+  memoryImport.addEventListener('click', () => {
+    memoryImportInput.click();
+  });
+
+  memoryImportInput.addEventListener('change', () => {
+    importShortformRecords(memoryImportInput.files[0]);
+  });
+
   renderShortformRecords();
 
   function fallbackCopy(text, cb) {
@@ -1902,6 +2708,48 @@
     try { document.execCommand('copy'); cb(); } catch(e) {}
     document.body.removeChild(ta);
   }
+
+  function showCopyConfirm(message = '클립보드에 복사되었습니다') {
+    const confirm = document.getElementById('shareConfirm');
+    confirm.textContent = message;
+    confirm.classList.add('show');
+    setTimeout(() => {
+      confirm.classList.remove('show');
+      confirm.textContent = '클립보드에 복사되었습니다';
+    }, 2200);
+  }
+
+  function copyText(text, message) {
+    const onCopied = () => showCopyConfirm(message);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, onCopied));
+    } else {
+      fallbackCopy(text, onCopied);
+    }
+  }
+
+  document.getElementById('feedbackBtn').addEventListener('click', () => {
+    const text = [
+      'Slowly 피드백',
+      '- 이해가 바로 됐나요?',
+      '- 샘플 체험이 자연스러웠나요?',
+      '- 기록하고 싶은 감정 태그가 있었나요?',
+      '- 다시 들어올 이유가 느껴졌나요?'
+    ].join('\n');
+    copyText(text, '피드백 질문을 복사했습니다');
+  });
+
+  document.getElementById('pilotCopyBtn').addEventListener('click', () => {
+    const text = [
+      'Slowly 1분 테스트',
+      '1. 설명 없이 30초 샘플 체험 버튼을 눌러보게 한다.',
+      '2. 실제로 오늘 본 숏폼 URL 하나를 넣고 기록하게 한다.',
+      '3. 이 서비스가 무엇을 하는 곳인지 한 문장으로 말해달라고 한다.',
+      '4. 감정 태그와 한 줄 메모 중 기억에 남는 부분을 묻는다.',
+      '5. 다시 들어올 이유가 있는지, 없다면 무엇이 부족한지 듣는다.'
+    ].join('\n');
+    copyText(text, '1분 테스트 스크립트를 복사했습니다');
+  });
 
   updateSpeedReport();
 
@@ -1949,12 +2797,23 @@
 
   // === Slow button interaction ===
   const slowBtn = document.getElementById('slowBtn');
+  const sampleBtn = document.getElementById('sampleBtn');
+  const heroSampleBtn = document.getElementById('heroSampleBtn');
+  const heroStartBtn = document.getElementById('heroStartBtn');
   const urlInput = document.getElementById('urlInput');
+  const memoInput = document.getElementById('memoInput');
   const slowResponse = document.getElementById('slowResponse');
   const slowResponseTitle = document.getElementById('slowResponseTitle');
   const slowResponseBody = document.getElementById('slowResponseBody');
   const videoPlayerWrap = document.getElementById('videoPlayerWrap');
   const defaultSlowBtnLabel = '숏폼을 천천히 붙잡기';
+
+  function scrollToCapture() {
+    document.getElementById('videoPrompt').scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'center'
+    });
+  }
 
   function getSourceLabel(rawUrl) {
     try {
@@ -1971,15 +2830,15 @@
     return '이 속도에서는 장면보다 조급함이 먼저 지나갑니다. 슬라이더를 왼쪽으로 옮기면 이 숏폼이 조금 더 선명해집니다.';
   }
 
-  function renderSlowResponse(url, mode = '기록 카드') {
+  function renderSlowResponse(url, mode = '기록 카드', options = {}) {
     const speed = Math.round(parseFloat(speedSlider.value) * 10) / 10;
-    const source = getSourceLabel(url);
+    const source = options.sourceLabel || getSourceLabel(url);
     const sourceText = source === '이 장면' ? source : `${source}에서 건너온 장면`;
     slowResponseTitle.textContent = `${sourceText}을 ${speed.toFixed(1)}×의 감각으로 붙잡아봅니다.`;
     slowResponseBody.textContent = getReflectionBySpeed(speed);
     slowResponse.classList.add('visible');
     videoPlayerWrap.classList.remove('visible');
-    recordShortform(url, mode);
+    recordShortform(url, mode, options);
     slowResponse.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
   }
 
@@ -2009,22 +2868,91 @@
     videoPlayerWrap.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
   }
 
+  const urlErrorMsg = document.getElementById('urlErrorMsg');
+
+  function showUrlError(msg) {
+    if (urlErrorMsg) {
+      urlErrorMsg.textContent = msg;
+      urlErrorMsg.style.opacity = '0.85';
+    }
+    if (urlInput) {
+      urlInput.style.borderColor = 'var(--accent)';
+    }
+  }
+
+  function clearUrlError() {
+    if (urlErrorMsg) {
+      urlErrorMsg.textContent = '';
+      urlErrorMsg.style.opacity = '0';
+    }
+    if (urlInput) {
+      urlInput.style.borderColor = '';
+    }
+  }
+
   urlInput.addEventListener('input', () => {
     const hasValue = urlInput.value.trim().length > 0;
     slowBtn.textContent = hasValue ? '이 숏폼을 붙잡기' : defaultSlowBtnLabel;
+    clearUrlError();
     if (!hasValue) {
       slowResponse.classList.remove('visible');
       videoPlayerWrap.classList.remove('visible');
     }
   });
 
+  function runSampleExperience() {
+    clearUrlError();
+    const sampleUrl = 'https://slowly.local/sample-shortform';
+    scrollToCapture();
+    urlInput.value = sampleUrl;
+    if (!memoInput.value.trim()) {
+      memoInput.value = '이 장면은 그냥 넘기기 싫었다';
+    }
+    setActiveFeeling('멍해짐');
+    renderSlowResponse(sampleUrl, '샘플 기록', {
+      sourceLabel: 'Slowly 샘플',
+      platform: 'Slowly Demo',
+      displayUrl: '샘플 숏폼: 빠르게 지나간 7초',
+      isSample: true,
+      feeling: '멍해짐'
+    });
+    sampleBtn.textContent = '샘플 기록을 남겼습니다';
+    slowBtn.textContent = '이 숏폼을 붙잡기';
+    setTimeout(() => {
+      sampleBtn.textContent = '샘플로 체험하기';
+    }, 2400);
+    setTimeout(() => {
+      document.getElementById('memoryScene').scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'center'
+      });
+    }, 1200);
+  }
+
+  sampleBtn.addEventListener('click', () => {
+    runSampleExperience();
+  });
+
+  heroSampleBtn.addEventListener('click', () => {
+    runSampleExperience();
+  });
+
+  heroStartBtn.addEventListener('click', () => {
+    scrollToCapture();
+    setTimeout(() => urlInput.focus(), prefersReducedMotion ? 0 : 500);
+  });
+
   slowBtn.addEventListener('click', () => {
     const url = normalizeMediaUrl(urlInput.value);
     if (!url) {
-      slowBtn.textContent = '먼저 보고 싶은 URL을 놓아주세요';
-      setTimeout(() => { slowBtn.textContent = defaultSlowBtnLabel; }, 1800);
+      showUrlError('먼저 보고 싶은 URL을 놓아주세요.');
       return;
     }
+    if (!isValidMediaUrl(url)) {
+      showUrlError('올바른 URL 형식(http:// 또는 https://)으로 입력해 주세요.');
+      return;
+    }
+    clearUrlError();
     urlInput.value = url;
 
     const isYoutube = extractYouTubeId(url) !== null;

@@ -1,17 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <radialGradient id="g" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#c4a882" stop-opacity="0.06"/>
+    <radialGradient id="warm" cx="28%" cy="22%" r="65%">
+      <stop offset="0%" stop-color="#c4a882" stop-opacity="0.22"/>
+      <stop offset="48%" stop-color="#6b5439" stop-opacity="0.08"/>
       <stop offset="100%" stop-color="#0a0a08" stop-opacity="0"/>
     </radialGradient>
+    <radialGradient id="quiet" cx="76%" cy="58%" r="58%">
+      <stop offset="0%" stop-color="#e8e4dc" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#0a0a08" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c4a882" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#c4a882" stop-opacity="0.62"/>
+      <stop offset="100%" stop-color="#c4a882" stop-opacity="0"/>
+    </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="#0a0a08"/>
-  <rect width="1200" height="630" fill="url(#g)"/>
-  <circle cx="600" cy="290" r="180" fill="none" stroke="#6b6860" stroke-width="0.8" opacity="0.35"/>
-  <circle cx="600" cy="290" r="220" fill="none" stroke="#6b6860" stroke-width="0.5" opacity="0.18"/>
-  <text x="600" y="315" font-family="Georgia,serif" font-size="108" font-style="italic" font-weight="300" fill="#e8e4dc" text-anchor="middle" letter-spacing="-2">느리게,</text>
-  <text x="600" y="375" font-family="Georgia,serif" font-size="28" font-weight="300" fill="#989084" text-anchor="middle" letter-spacing="8">Slowly.</text>
-  <line x1="560" y1="412" x2="640" y2="412" stroke="#6b6860" stroke-width="0.8" opacity="0.5"/>
-  <text x="600" y="450" font-family="Georgia,serif" font-size="18" fill="#6b6860" text-anchor="middle" letter-spacing="3">빠름에 대한 저항, 느림의 경험</text>
-  <text x="600" y="572" font-family="Georgia,serif" font-size="14" fill="#6b6860" text-anchor="middle" letter-spacing="5" opacity="0.6">슬로, 워 — taopoem</text>
+  <rect width="1200" height="630" fill="url(#warm)"/>
+  <rect width="1200" height="630" fill="url(#quiet)"/>
+
+  <circle cx="890" cy="188" r="116" fill="none" stroke="#c4a882" stroke-width="1" opacity="0.2"/>
+  <circle cx="890" cy="188" r="164" fill="none" stroke="#989084" stroke-width="0.8" opacity="0.11"/>
+  <circle cx="218" cy="458" r="92" fill="none" stroke="#e8e4dc" stroke-width="0.8" opacity="0.11"/>
+  <path d="M154 156 C 250 124, 350 124, 444 156" fill="none" stroke="#6b6860" stroke-width="1" opacity="0.34"/>
+  <path d="M744 470 C 838 506, 952 504, 1042 468" fill="none" stroke="#6b6860" stroke-width="1" opacity="0.28"/>
+
+  <text x="108" y="116" font-family="Georgia, 'Times New Roman', serif" font-size="17" font-weight="300" fill="#989084" letter-spacing="7">SHORT-FORM DECOMPRESSION</text>
+  <text x="108" y="286" font-family="Georgia, 'Times New Roman', serif" font-size="116" font-style="italic" font-weight="300" fill="#e8e4dc" letter-spacing="-2">Slowly</text>
+  <text x="114" y="362" font-family="'Apple SD Gothic Neo', 'Noto Serif KR', serif" font-size="31" font-weight="300" fill="#e8e4dc" letter-spacing="-0.5">지나가는 세상이 아닌, 멈춰지는 순간을 위해.</text>
+  <rect x="110" y="404" width="560" height="1" fill="url(#line)" opacity="0.82"/>
+  <text x="112" y="458" font-family="'Apple SD Gothic Neo', 'Noto Serif KR', serif" font-size="23" font-weight="300" fill="#c4a882" letter-spacing="-0.3">숏폼 URL → 느리게 다시 보기 → 오늘의 장면 기록</text>
+  <text x="112" y="520" font-family="'Apple SD Gothic Neo', 'Noto Serif KR', serif" font-size="18" font-weight="300" fill="#989084" letter-spacing="0.5">빠르게 소비한 장면을 천천히 다시 보고, 한 줄로 남기는 디지털 디톡스 도구</text>
+  <text x="108" y="580" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="300" fill="#6b6860" letter-spacing="5">a 슬로, 워 project by taopoem</text>
 </svg>
