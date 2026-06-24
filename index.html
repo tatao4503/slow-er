@@ -884,10 +884,35 @@
 
   .timer-note.visible { opacity: 0.56; }
 
+  /* Sign-off — 작가 개인 */
+  .signoff {
+    max-width: 460px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 8px 24px 0;
+  }
+
+  .signoff-line {
+    font-size: 15px;
+    font-weight: 200;
+    line-height: 2.2;
+    color: rgba(232, 228, 220, 0.6);
+  }
+
+  .signoff-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    opacity: 0.85;
+    margin-top: 18px;
+  }
+
   /* Footer */
   .footer {
     text-align: center;
-    padding: 80px 24px;
+    padding: 56px 24px 80px;
   }
 
   .footer-text {
@@ -1902,6 +1927,13 @@
       </article>
     </div>
     <button class="pilot-copy" id="pilotCopyBtn" type="button">1분 테스트 스크립트 복사하기</button>
+  </div>
+</section>
+
+<section class="scene" style="min-height:auto;padding-top:40px;padding-bottom:24px">
+  <div class="signoff">
+    <p class="signoff-line">편집된 나날이 아닌, 그대로인 나를.</p>
+    <p class="signoff-name">— 태오 / taopoem</p>
   </div>
 </section>
 
