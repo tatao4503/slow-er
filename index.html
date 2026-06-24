@@ -1309,6 +1309,174 @@
   }
 
   /* Shortform memory */
+  /* Reading stream — 작가의 느린 장면 */
+  .stream-section {
+    max-width: 680px;
+    width: 100%;
+    text-align: center;
+    padding: 24px 0;
+  }
+
+  .stream-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--soft);
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    margin-bottom: 20px;
+  }
+
+  .stream-label.visible { opacity: 0.74; }
+
+  .stream-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 6vw, 54px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fg);
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.4s ease 0.1s, transform 1.4s ease 0.1s;
+    margin-bottom: 18px;
+  }
+
+  .stream-title.visible { opacity: 0.9; transform: translateY(0); }
+
+  .stream-sub {
+    max-width: 420px;
+    margin: 0 auto 32px;
+    color: var(--soft);
+    font-size: 14px;
+    line-height: 1.9;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.25s;
+  }
+
+  .stream-sub.visible { opacity: 0.72; }
+
+  .stream-list {
+    display: grid;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.4s ease 0.35s, transform 1.4s ease 0.35s;
+  }
+
+  .stream-list.visible { opacity: 1; transform: translateY(0); }
+
+  .stream-card {
+    text-align: left;
+    padding: 20px 22px;
+    border: 1px solid rgba(152, 144, 132, 0.16);
+    background: rgba(232, 228, 220, 0.025);
+    cursor: none;
+    transition: border-color 0.8s ease, background 0.8s ease;
+  }
+
+  .stream-card:hover {
+    border-color: rgba(196, 168, 130, 0.32);
+    background: rgba(232, 228, 220, 0.04);
+  }
+
+  .stream-card-kicker {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.82;
+    margin-bottom: 10px;
+  }
+
+  .stream-card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .stream-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fg);
+    line-height: 1.4;
+  }
+
+  .stream-card-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--soft);
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+
+  .stream-card-excerpt {
+    color: rgba(232, 228, 220, 0.6);
+    font-size: 14px;
+    line-height: 1.9;
+    margin-top: 12px;
+    transition: opacity 0.8s ease;
+  }
+
+  .stream-card-body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease, margin-top 1.2s ease;
+    white-space: pre-wrap;
+    font-size: clamp(15px, 3vw, 18px);
+    font-weight: 200;
+    line-height: 2.5;
+    color: var(--fg);
+    margin-top: 0;
+  }
+
+  .stream-card.open .stream-card-body {
+    max-height: 1200px;
+    opacity: 0.92;
+    margin-top: 20px;
+  }
+
+  .stream-card.open .stream-card-excerpt { opacity: 0; height: 0; margin: 0; }
+
+  .stream-card-foot {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--soft);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1s ease 0.3s, max-height 1s ease;
+    margin-top: 0;
+  }
+
+  .stream-card.open .stream-card-foot {
+    opacity: 0.55;
+    max-height: 40px;
+    margin-top: 18px;
+  }
+
+  .stream-empty {
+    color: var(--soft);
+    font-size: 14px;
+    line-height: 2;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    font-weight: 200;
+  }
+
+  .stream-empty.visible { opacity: 0.6; }
+
+  html.touch-mode .stream-card { cursor: auto; }
+  @media (hover: none), (pointer: coarse) { .stream-card { cursor: auto; } }
+
   .memory-section {
     max-width: 680px;
     width: 100%;
@@ -1836,6 +2004,18 @@
 </section>
 
 <div class="divider" id="divider5"></div>
+
+<section class="scene" id="streamScene">
+  <div class="stream-section">
+    <p class="stream-label" id="streamLabel">지난 느린 장면</p>
+    <h2 class="stream-title" id="streamTitle">천천히 본 것들</h2>
+    <p class="stream-sub" id="streamSub">하루에 하나, 천천히 읽도록 남겨둔 글입니다. 눌러서 펼쳐 보세요.</p>
+    <div class="stream-list" id="streamList"></div>
+    <p class="stream-empty" id="streamEmpty">아직 첫 장면을 준비하고 있습니다.</p>
+  </div>
+</section>
+
+<div class="divider" id="dividerStream"></div>
 
 <section class="scene" id="memoryScene">
   <div class="memory-section">
@@ -3036,6 +3216,114 @@
       }, 900);
     }
   });
+
+  // === Reading stream — 작가의 느린 장면 아카이브 ===
+  (function initStream() {
+    const labelEls = ['streamLabel', 'streamTitle', 'streamSub', 'streamList']
+      .map(id => document.getElementById(id)).filter(Boolean);
+    const listEl = document.getElementById('streamList');
+    const emptyEl = document.getElementById('streamEmpty');
+    const scene = document.getElementById('streamScene');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+    labelEls.forEach(el => revealObserver.observe(el));
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+      return m ? `${m[1]}. ${m[2]}. ${m[3]}` : iso;
+    }
+
+    function excerpt(body) {
+      const flat = (body || '').replace(/\n+/g, ' ').trim();
+      return flat.length > 48 ? flat.slice(0, 48) + '…' : flat;
+    }
+
+    function buildCard(data) {
+      const card = document.createElement('article');
+      card.className = 'stream-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+
+      const kicker = document.createElement('p');
+      kicker.className = 'stream-card-kicker';
+      kicker.textContent = data.type || '글';
+
+      const head = document.createElement('div');
+      head.className = 'stream-card-head';
+      const title = document.createElement('h3');
+      title.className = 'stream-card-title';
+      title.textContent = data.title || '제목 없음';
+      const date = document.createElement('span');
+      date.className = 'stream-card-date';
+      date.textContent = fmtDate(data._date);
+      head.appendChild(title);
+      head.appendChild(date);
+
+      const exc = document.createElement('p');
+      exc.className = 'stream-card-excerpt';
+      exc.textContent = excerpt(data.body);
+
+      const body = document.createElement('div');
+      body.className = 'stream-card-body';
+      body.textContent = data.body || '';
+
+      const foot = document.createElement('p');
+      foot.className = 'stream-card-foot';
+      const rt = data.readTime ? `천천히 읽으면 약 ${data.readTime}초` : '';
+      foot.textContent = [data.author ? `— ${data.author}` : '', rt].filter(Boolean).join('   ·   ');
+
+      card.appendChild(kicker);
+      card.appendChild(head);
+      card.appendChild(exc);
+      card.appendChild(body);
+      card.appendChild(foot);
+
+      const toggle = () => card.classList.toggle('open');
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+      return card;
+    }
+
+    async function load() {
+      try {
+        const mRes = await fetch('content/manifest.json', { cache: 'no-store' });
+        if (!mRes.ok) throw new Error('manifest');
+        const manifest = await mRes.json();
+        const entries = (manifest.entries || []).slice()
+          .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        if (!entries.length) throw new Error('empty');
+
+        const loaded = [];
+        for (const entry of entries) {
+          try {
+            const eRes = await fetch(`content/daily/${entry.id}.json`, { cache: 'no-store' });
+            if (!eRes.ok) continue;
+            const data = await eRes.json();
+            data._date = entry.date;
+            loaded.push(data);
+          } catch (e) { /* skip broken entry */ }
+        }
+        if (!loaded.length) throw new Error('none-loaded');
+
+        loaded.forEach(d => listEl.appendChild(buildCard(d)));
+        emptyEl.style.display = 'none';
+      } catch (e) {
+        // 콘텐츠 없거나 file://로 열어 fetch 막힘 → 섹션 조용히 숨김
+        if (scene) scene.style.display = 'none';
+        const d5 = document.getElementById('divider5');
+        const ds = document.getElementById('dividerStream');
+        if (d5) d5.style.display = 'none';
+        if (ds) ds.style.display = 'none';
+      }
+    }
+
+    load();
+  })();
 </script>
 </body>
 </html>
