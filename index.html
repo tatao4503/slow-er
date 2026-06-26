@@ -1046,6 +1046,7 @@
     .sample-btn,
     .hero-action,
     .memory-delete,
+    .memory-card-action,
     .share-btn,
     .feedback-btn,
     .pilot-copy,
@@ -1067,6 +1068,7 @@
   html.touch-mode .sample-btn,
   html.touch-mode .hero-action,
   html.touch-mode .memory-delete,
+  html.touch-mode .memory-card-action,
   html.touch-mode .share-btn,
   html.touch-mode .feedback-btn,
   html.touch-mode .pilot-copy,
@@ -1086,6 +1088,7 @@
     .sample-btn,
     .hero-action,
     .memory-delete,
+    .memory-card-action,
     .share-btn,
     .feedback-btn,
     .pilot-copy,
@@ -1646,8 +1649,17 @@
     font-size: 0.45em;
   }
 
-  .memory-delete {
+  .memory-card-actions {
     grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-top: 2px;
+  }
+
+  .memory-card-action,
+  .memory-delete {
     justify-self: start;
     border: none;
     background: transparent;
@@ -1661,6 +1673,11 @@
     transition: color 0.8s ease;
   }
 
+  .memory-card-action {
+    color: rgba(196, 168, 130, 0.82);
+  }
+
+  .memory-card-action:hover,
   .memory-delete:hover {
     color: var(--accent);
   }
@@ -2858,6 +2875,41 @@
         : `오늘 ${summary.count}개의 숏폼을 천천히 붙잡았습니다.`;
   }
 
+  function getShortformRecordById(id) {
+    return getShortformRecords().find(record => record.id === id);
+  }
+
+  function buildRecordCopyText(record) {
+    return [
+      'Slowly 기록',
+      `${record.platform} · ${record.mode}`,
+      record.displayUrl || record.url,
+      `${record.speed.toFixed(1)}×로 붙잡은 장면`,
+      record.feeling ? `감정: ${record.feeling}` : '',
+      record.note ? `메모: ${record.note}` : '',
+      '— Slowly'
+    ].filter(Boolean).join('\n');
+  }
+
+  function revisitShortformRecord(record) {
+    if (!record || record.isSample) return;
+    slowSubmitRun += 1;
+    flushSpeedTime();
+    urlInput.value = record.url;
+    memoInput.value = record.note || '';
+    speedSlider.value = String(record.speed || 1);
+    currentTrackedSpeed = parseFloat(speedSlider.value);
+    lastTrackTime = Date.now();
+    updateSpeedUI(currentTrackedSpeed);
+    updateSpeedReport();
+    if (record.feeling) setActiveFeeling(record.feeling);
+    clearUrlError();
+    setSlowBtnText('이 숏폼을 다시 붙잡기');
+    scrollToCapture();
+    setTimeout(() => urlInput.focus(), prefersReducedMotion ? 0 : 500);
+    setMemoryStatus('기록을 입력창으로 다시 불러왔습니다.');
+  }
+
   function renderShortformRecords() {
     const records = getShortformRecords();
     memoryList.innerHTML = '';
@@ -2914,14 +2966,33 @@
         feeling.textContent = record.feeling;
         main.appendChild(feeling);
       }
+
+      const actions = document.createElement('div');
+      actions.className = 'memory-card-actions';
+      if (!record.isSample) {
+        const revisitBtn = document.createElement('button');
+        revisitBtn.className = 'memory-card-action';
+        revisitBtn.type = 'button';
+        revisitBtn.textContent = '다시 붙잡기';
+        revisitBtn.dataset.revisitId = record.id;
+        actions.appendChild(revisitBtn);
+      }
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'memory-card-action';
+      copyBtn.type = 'button';
+      copyBtn.textContent = '기록 복사';
+      copyBtn.dataset.copyId = record.id;
+      actions.appendChild(copyBtn);
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'memory-delete';
       deleteBtn.type = 'button';
-      deleteBtn.textContent = '이 기록 지우기';
+      deleteBtn.textContent = '지우기';
       deleteBtn.dataset.deleteId = record.id;
+      actions.appendChild(deleteBtn);
+
       card.appendChild(main);
       card.appendChild(speed);
-      card.appendChild(deleteBtn);
+      card.appendChild(actions);
       memoryList.appendChild(card);
     });
   }
@@ -2964,6 +3035,10 @@
     if (latest && latest.url === url && now - latest.createdAt < 2500) return;
 
     const speed = Math.round(parseFloat(speedSlider.value) * 10) / 10;
+    const time = new Intl.DateTimeFormat('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(new Date(now));
     const record = {
       id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
       url,
@@ -2975,11 +3050,25 @@
       note: getPendingMemoryNote(),
       feeling: options.feeling || getSelectedFeeling(),
       createdAt: now,
-      time: new Intl.DateTimeFormat('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit'
-      }).format(new Date(now))
+      time
     };
+
+    const existingIndex = records.findIndex(item => !item.isSample && item.url === url);
+    if (existingIndex >= 0) {
+      const existing = records[existingIndex];
+      const updated = {
+        ...existing,
+        ...record,
+        id: existing.id,
+        createdAt: now,
+        time
+      };
+      const nextRecords = [updated, ...records.filter((_, index) => index !== existingIndex)].slice(0, 8);
+      const saved = saveShortformRecords(nextRecords);
+      renderShortformRecords();
+      if (saved) setMemoryStatus('이미 있던 장면을 새 메모와 속도로 갱신했습니다.');
+      return;
+    }
 
     const saved = saveShortformRecords([record, ...records].slice(0, 8));
     renderShortformRecords();
@@ -2993,9 +3082,23 @@
   });
 
   memoryList.addEventListener('click', (event) => {
-    const target = event.target.closest('[data-delete-id]');
-    if (!target) return;
-    deleteShortformRecord(target.dataset.deleteId);
+    const revisitTarget = event.target.closest('[data-revisit-id]');
+    if (revisitTarget) {
+      const record = getShortformRecordById(revisitTarget.dataset.revisitId);
+      revisitShortformRecord(record);
+      return;
+    }
+
+    const copyTarget = event.target.closest('[data-copy-id]');
+    if (copyTarget) {
+      const record = getShortformRecordById(copyTarget.dataset.copyId);
+      if (record) copyText(buildRecordCopyText(record), '기록 하나를 복사했습니다');
+      return;
+    }
+
+    const deleteTarget = event.target.closest('[data-delete-id]');
+    if (!deleteTarget) return;
+    deleteShortformRecord(deleteTarget.dataset.deleteId);
     setMemoryStatus('기록 하나를 지웠습니다.');
   });
 
@@ -3125,6 +3228,36 @@
   const slowResponseBody = document.getElementById('slowResponseBody');
   const videoPlayerWrap = document.getElementById('videoPlayerWrap');
   const defaultSlowBtnLabel = '숏폼을 천천히 붙잡기';
+  let slowBtnTimers = [];
+  let slowSubmitRun = 0;
+
+  function clearSlowBtnTimers() {
+    slowBtnTimers.forEach(timer => window.clearTimeout(timer));
+    slowBtnTimers = [];
+  }
+
+  function setSlowBtnText(label) {
+    clearSlowBtnTimers();
+    slowBtn.textContent = label;
+  }
+
+  function scheduleSlowBtnText(label, delay) {
+    const timer = window.setTimeout(() => {
+      slowBtn.textContent = label;
+      slowBtnTimers = slowBtnTimers.filter(item => item !== timer);
+    }, delay);
+    slowBtnTimers.push(timer);
+    return timer;
+  }
+
+  function scheduleSlowBtnAction(callback, delay) {
+    const timer = window.setTimeout(() => {
+      slowBtnTimers = slowBtnTimers.filter(item => item !== timer);
+      callback();
+    }, delay);
+    slowBtnTimers.push(timer);
+    return timer;
+  }
 
   function scrollToCapture() {
     document.getElementById('videoPrompt').scrollIntoView({
@@ -3212,7 +3345,8 @@
 
   urlInput.addEventListener('input', () => {
     const hasValue = urlInput.value.trim().length > 0;
-    slowBtn.textContent = hasValue ? '이 숏폼을 붙잡기' : defaultSlowBtnLabel;
+    slowSubmitRun += 1;
+    setSlowBtnText(hasValue ? '이 숏폼을 붙잡기' : defaultSlowBtnLabel);
     clearUrlError();
     if (!hasValue) {
       slowResponse.classList.remove('visible');
@@ -3221,6 +3355,7 @@
   });
 
   function runSampleExperience() {
+    slowSubmitRun += 1;
     clearUrlError();
     const sampleUrl = 'https://slowly.local/sample-shortform';
     scrollToCapture();
@@ -3237,7 +3372,7 @@
       feeling: '멍해짐'
     });
     sampleBtn.textContent = '샘플 기록을 남겼습니다';
-    slowBtn.textContent = '이 숏폼을 붙잡기';
+    setSlowBtnText('이 숏폼을 붙잡기');
     setTimeout(() => {
       sampleBtn.textContent = '샘플로 체험하기';
     }, 2400);
@@ -3274,33 +3409,45 @@
     }
     clearUrlError();
     urlInput.value = url;
+    const submitRun = ++slowSubmitRun;
+    const isActiveSubmit = () => submitRun === slowSubmitRun;
 
     const isYoutube = extractYouTubeId(url) !== null;
 
     if (isYoutube) {
-      slowBtn.textContent = '천천히 들여다보는 중...';
+      setSlowBtnText('천천히 들여다보는 중...');
       const proceed = () => {
+        if (!isActiveSubmit()) return;
         try {
           renderYTPlayer(url);
-          slowBtn.textContent = '이 숏폼을 붙잡기';
+          setSlowBtnText('이 숏폼을 붙잡기');
         } catch(e) {
-          slowBtn.textContent = '재생은 늦어, 기록으로 붙잡았습니다.';
-          setTimeout(() => { slowBtn.textContent = '이 숏폼을 붙잡기'; }, 2400);
+          setSlowBtnText('재생은 늦어, 기록으로 붙잡았습니다.');
+          scheduleSlowBtnText('이 숏폼을 붙잡기', 2400);
         }
       };
       if (canUseYTApi()) {
-        setTimeout(proceed, 600);
+        scheduleSlowBtnAction(proceed, 600);
       } else {
         let settled = false;
         const fallback = () => {
+          if (!isActiveSubmit()) {
+            clearInterval(check);
+            return;
+          }
           if (settled) return;
           settled = true;
           clearInterval(check);
           renderSlowResponse(url, '기록 카드');
-          slowBtn.textContent = '재생은 늦어, 기록으로 붙잡았습니다.';
-          setTimeout(() => { slowBtn.textContent = '이 숏폼을 붙잡기'; }, 2400);
+          setSlowBtnText('재생은 늦어, 기록으로 붙잡았습니다.');
+          scheduleSlowBtnText('이 숏폼을 붙잡기', 2400);
         };
         const check = setInterval(() => {
+          if (!isActiveSubmit()) {
+            clearInterval(check);
+            clearTimeout(waitLimit);
+            return;
+          }
           if (canUseYTApi()) {
             settled = true;
             clearInterval(check);
@@ -3310,16 +3457,18 @@
             fallback();
           }
         }, 200);
-        const waitLimit = setTimeout(fallback, 6000);
+        const waitLimit = scheduleSlowBtnAction(fallback, 6000);
       }
     } else {
-      slowBtn.textContent = '천천히 들여다보는 중...';
-      setTimeout(() => {
+      setSlowBtnText('천천히 들여다보는 중...');
+      scheduleSlowBtnAction(() => {
+        if (!isActiveSubmit()) return;
         renderSlowResponse(url, '기록 카드');
-        slowBtn.textContent = '숏폼을 기록으로 붙잡았습니다.';
-        setTimeout(() => {
-          slowBtn.textContent = '오늘의 장면 보관함에 남겼습니다.';
-          setTimeout(() => { slowBtn.textContent = '이 숏폼을 붙잡기'; }, 2600);
+        setSlowBtnText('숏폼을 기록으로 붙잡았습니다.');
+        scheduleSlowBtnAction(() => {
+          if (!isActiveSubmit()) return;
+          setSlowBtnText('오늘의 장면 보관함에 남겼습니다.');
+          scheduleSlowBtnText('이 숏폼을 붙잡기', 2600);
         }, 1800);
       }, 900);
     }
