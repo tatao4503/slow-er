@@ -1684,6 +1684,19 @@
     opacity: 0.56;
   }
 
+  .memory-status {
+    max-width: 520px;
+    min-height: 20px;
+    margin: 12px auto 0;
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 1.8;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .memory-status.show { opacity: 0.76; }
+
   .memory-actions {
     display: flex;
     flex-wrap: wrap;
@@ -1881,7 +1894,7 @@
 <div class="grain"></div>
 
 <!-- Audio toggle -->
-<button class="audio-toggle" id="audioToggle" type="button" aria-label="소리 켜기" title="소리 켜기">
+<button class="audio-toggle" id="audioToggle" type="button" aria-label="소리 켜기" aria-pressed="false" title="소리 켜기">
   <svg viewBox="0 0 12 12" fill="none" id="audioIcon">
     <line x1="0" y1="6" x2="12" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
   </svg>
@@ -1895,7 +1908,8 @@
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- Content -->
-<section class="scene">
+<main id="mainContent">
+<section class="scene" aria-labelledby="heroTitle">
   <div class="hero">
     <p class="hero-kicker" id="heroKicker">short-form decompression</p>
     <h1 class="hero-title" id="heroTitle">Slowly</h1>
@@ -1923,7 +1937,7 @@
 
 <div class="divider" id="divider1"></div>
 
-<section class="scene">
+<section class="scene" aria-label="Slowly 소개 문장">
   <div class="slow-section">
     <p class="slow-text" id="slowText1">
       빠르게 넘긴 숏폼을, 한 번 더 천천히 봅니다.
@@ -1931,7 +1945,7 @@
   </div>
 </section>
 
-<section class="scene">
+<section class="scene" aria-label="Slowly 소개 문장">
   <div class="slow-section">
     <p class="slow-text" id="slowText2">
       알고리즘이 지나간 뒤에 남은 감각을 기록합니다.
@@ -1941,7 +1955,7 @@
 
 <div class="divider" id="divider2"></div>
 
-<section class="scene">
+<section class="scene" aria-labelledby="speedLabel">
   <div class="speed-lab">
     <p class="speed-label" id="speedLabel">오늘 내 숏폼 소비 속도는 어느 쪽에 가까운가요</p>
     <div class="speed-display" id="speedDisplay">
@@ -1962,7 +1976,7 @@
 
 <div class="divider" id="divider3"></div>
 
-<section class="scene">
+<section class="scene" aria-labelledby="videoPrompt">
   <div class="video-section">
     <p class="video-prompt" id="videoPrompt">오늘 붙잡고 싶은 숏폼 URL</p>
     <div class="source-support" id="sourceSupport" aria-label="지원하는 숏폼 출처">
@@ -2018,7 +2032,7 @@
 
 <div class="divider" id="divider4"></div>
 
-<section class="scene">
+<section class="scene" aria-label="Slowly manifesto">
   <div class="manifesto">
     <p class="manifesto-line" data-delay="0">Slowly는 숏폼을 끊으라고 말하지 않습니다.</p>
     <p class="manifesto-line" data-delay="200">다만, 지나간 장면을 한 번 더 <em>붙잡자고</em> 말합니다.</p>
@@ -2034,7 +2048,7 @@
 
 <div class="divider" id="divider5"></div>
 
-<section class="scene" id="memoryScene">
+<section class="scene" id="memoryScene" aria-labelledby="memoryTitle">
   <div class="memory-section">
     <p class="memory-label" id="memoryLabel">오늘 붙잡은 숏폼</p>
     <h2 class="memory-title" id="memoryTitle">지나간 장면의 작은 보관함</h2>
@@ -2051,18 +2065,19 @@
       개인 기록은 이 브라우저에만 저장됩니다.
       날짜가 바뀌면 오늘 기록은 새로 시작되니, 남기고 싶은 기록은 내보내기로 보관하세요.
     </p>
-    <div class="memory-actions">
+    <p class="memory-status" id="memoryStatus" aria-live="polite"></p>
+    <div class="memory-actions" aria-describedby="memoryStatus">
       <button class="memory-action-btn" id="memoryExport" type="button">기록 내보내기</button>
       <button class="memory-action-btn" id="memoryImport" type="button">기록 불러오기</button>
       <button class="memory-action-btn memory-clear" id="memoryClear" type="button" hidden>오늘 기록 비우기</button>
-      <input class="memory-import-input" id="memoryImportInput" type="file" accept="application/json">
+      <input class="memory-import-input" id="memoryImportInput" type="file" accept="application/json" aria-label="Slowly 기록 백업 파일 선택">
     </div>
   </div>
 </section>
 
 <div class="divider" id="divider6"></div>
 
-<section class="scene">
+<section class="scene" aria-labelledby="timerLabel">
   <div class="timer-section">
     <p class="timer-label" id="timerLabel">이 페이지와 함께 머문 시간</p>
     <div class="timer-display" id="timerDisplay">0:00</div>
@@ -2098,10 +2113,10 @@
 
 <div class="divider" id="divider7"></div>
 
-<section class="scene" id="pilotScene">
+<section class="scene" id="pilotScene" aria-labelledby="pilotTitle">
   <div class="pilot-section">
     <p class="pilot-kicker">pilot test</p>
-    <h2 class="pilot-title">처음 3명에게는 이렇게 보여주세요</h2>
+    <h2 class="pilot-title" id="pilotTitle">처음 3명에게는 이렇게 보여주세요</h2>
     <p class="pilot-sub">
       Slowly가 설명 없이도 이해되는지 확인하는 1분 테스트입니다.
       샘플을 눌러보게 하고, 실제 숏폼 하나를 기록하게 한 뒤, 마지막에 남은 감각을 물어보세요.
@@ -2129,7 +2144,7 @@
 
 <div class="divider" id="dividerStream"></div>
 
-<section class="scene" id="streamScene">
+<section class="scene" id="streamScene" aria-labelledby="streamTitle">
   <div class="stream-section">
     <p class="stream-label" id="streamLabel">slow archive</p>
     <h2 class="stream-title" id="streamTitle">슬로, 워의 느린 기록</h2>
@@ -2148,6 +2163,8 @@
     <p class="signoff-name">— 태오 / taopoem</p>
   </div>
 </section>
+
+</main>
 
 <footer class="footer">
   <p class="footer-text">Slowly. &nbsp; / &nbsp; a 슬로, 워 project by taopoem</p>
@@ -2518,6 +2535,10 @@
   });
 
   setInterval(updateSpeedReport, 5000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) flushSpeedTime();
+  });
+  window.addEventListener('pagehide', flushSpeedTime);
 
   observer.observe(document.getElementById('speedReport'));
 
@@ -2602,6 +2623,7 @@
     audioToggle.classList.toggle('playing', isPlaying);
     audioToggle.classList.remove('unavailable');
     audioToggle.setAttribute('aria-label', isPlaying ? '소리 끄기' : '소리 켜기');
+    audioToggle.setAttribute('aria-pressed', String(isPlaying));
     audioToggle.title = isPlaying ? '소리 끄기' : '소리 켜기';
     audioIcon.innerHTML = isPlaying ? iconWave : iconLine;
   }
@@ -2610,6 +2632,7 @@
     audioToggle.classList.remove('playing');
     audioToggle.classList.add('unavailable');
     audioToggle.setAttribute('aria-label', '이 브라우저에서는 소리를 사용할 수 없습니다');
+    audioToggle.setAttribute('aria-pressed', 'false');
     audioToggle.title = '이 브라우저에서는 소리를 사용할 수 없습니다';
     audioIcon.innerHTML = iconLine;
   }
@@ -2645,11 +2668,26 @@
   const memoryExport = document.getElementById('memoryExport');
   const memoryImport = document.getElementById('memoryImport');
   const memoryImportInput = document.getElementById('memoryImportInput');
+  const memoryStatus = document.getElementById('memoryStatus');
   const insightCount = document.getElementById('insightCount');
   const insightRecordSpeed = document.getElementById('insightRecordSpeed');
   const insightFeeling = document.getElementById('insightFeeling');
   const insightLine = document.getElementById('insightLine');
   let shortformRecordsCache = [];
+  let memoryStatusTimer = null;
+
+  function setMemoryStatus(message = '') {
+    if (!memoryStatus) return;
+    window.clearTimeout(memoryStatusTimer);
+    memoryStatus.textContent = message;
+    memoryStatus.classList.toggle('show', Boolean(message));
+    if (message) {
+      memoryStatusTimer = window.setTimeout(() => {
+        memoryStatus.textContent = '';
+        memoryStatus.classList.remove('show');
+      }, 3600);
+    }
+  }
 
   function getPlatformLabel(rawUrl) {
     try {
@@ -2685,7 +2723,11 @@
     try {
       localStorage.setItem(shortformDateKey, getLocalDateKey());
       localStorage.setItem(shortformLogKey, JSON.stringify(records));
-    } catch(e) {}
+      return true;
+    } catch(e) {
+      setMemoryStatus('브라우저 저장이 막혀서 이번 기록은 화면에서만 유지됩니다. 내보내기로 보관해 주세요.');
+      return false;
+    }
   }
 
   function sanitizeImportedRecords(rawRecords) {
@@ -2715,6 +2757,10 @@
 
   function exportShortformRecords() {
     const records = getShortformRecords();
+    if (!records.length) {
+      setMemoryStatus('아직 내보낼 기록이 없습니다.');
+      return false;
+    }
     const payload = {
       app: 'Slowly',
       version: 1,
@@ -2722,19 +2768,26 @@
       exportedAt: new Date().toISOString(),
       records
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `slowly-records-${payload.date}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    try {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `slowly-records-${payload.date}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      return true;
+    } catch(e) {
+      setMemoryStatus('내보내기 파일을 만들지 못했습니다. 브라우저 권한을 확인해 주세요.');
+      return false;
+    }
   }
 
   function importShortformRecords(file) {
     if (!file) return;
+    memoryImport.textContent = '불러오는 중...';
     const reader = new FileReader();
     reader.onload = () => {
       try {
@@ -2749,17 +2802,28 @@
         memoryImport.textContent = imported.length > 0
           ? `${imported.length}개 불러왔습니다`
           : '불러올 기록이 없습니다';
+        setMemoryStatus(imported.length > 0
+          ? `${imported.length}개의 기록을 오늘 보관함에 합쳤습니다.`
+          : '파일 안에서 불러올 수 있는 기록을 찾지 못했습니다.');
         setTimeout(() => { memoryImport.textContent = '기록 불러오기'; }, 2200);
       } catch(e) {
         if (e.message === 'Invalid Slowly backup') {
           memoryImport.textContent = '올바른 백업 파일이 아닙니다';
+          setMemoryStatus('Slowly에서 내보낸 JSON 파일만 불러올 수 있습니다.');
         } else {
           memoryImport.textContent = '불러오기에 실패했습니다';
+          setMemoryStatus('파일을 읽는 중 문제가 생겼습니다.');
         }
         setTimeout(() => { memoryImport.textContent = '기록 불러오기'; }, 2200);
       } finally {
         memoryImportInput.value = '';
       }
+    };
+    reader.onerror = () => {
+      memoryImport.textContent = '불러오기에 실패했습니다';
+      setMemoryStatus('파일을 읽지 못했습니다. 다른 백업 파일로 다시 시도해 주세요.');
+      setTimeout(() => { memoryImport.textContent = '기록 불러오기'; }, 2200);
+      memoryImportInput.value = '';
     };
     reader.readAsText(file);
   }
@@ -2892,6 +2956,11 @@
     const now = Date.now();
     const records = getShortformRecords();
     const latest = records[0];
+    if (options.isSample && records.some(record => record.isSample)) {
+      renderShortformRecords();
+      setMemoryStatus('샘플 기록은 이미 보관함에 있어요. 실제 숏폼 하나를 붙잡아보세요.');
+      return;
+    }
     if (latest && latest.url === url && now - latest.createdAt < 2500) return;
 
     const speed = Math.round(parseFloat(speedSlider.value) * 10) / 10;
@@ -2912,25 +2981,30 @@
       }).format(new Date(now))
     };
 
-    saveShortformRecords([record, ...records].slice(0, 8));
+    const saved = saveShortformRecords([record, ...records].slice(0, 8));
     renderShortformRecords();
+    if (saved) setMemoryStatus('오늘 보관함에 새 장면을 남겼습니다.');
   }
 
   memoryClear.addEventListener('click', () => {
     saveShortformRecords([]);
     renderShortformRecords();
+    setMemoryStatus('오늘 기록을 비웠습니다.');
   });
 
   memoryList.addEventListener('click', (event) => {
     const target = event.target.closest('[data-delete-id]');
     if (!target) return;
     deleteShortformRecord(target.dataset.deleteId);
+    setMemoryStatus('기록 하나를 지웠습니다.');
   });
 
   memoryExport.addEventListener('click', () => {
-    exportShortformRecords();
-    memoryExport.textContent = '기록을 내보냈습니다';
-    setTimeout(() => { memoryExport.textContent = '기록 내보내기'; }, 2200);
+    if (exportShortformRecords()) {
+      memoryExport.textContent = '기록을 내보냈습니다';
+      setMemoryStatus('JSON 백업 파일을 만들었습니다.');
+      setTimeout(() => { memoryExport.textContent = '기록 내보내기'; }, 2200);
+    }
   });
 
   memoryImport.addEventListener('click', () => {
@@ -3188,7 +3262,7 @@
     setTimeout(() => urlInput.focus(), prefersReducedMotion ? 0 : 500);
   });
 
-  slowBtn.addEventListener('click', () => {
+  function handleSlowSubmit() {
     const url = normalizeMediaUrl(urlInput.value);
     if (!url) {
       showUrlError('먼저 보고 싶은 URL을 놓아주세요.');
@@ -3249,6 +3323,15 @@
         }, 1800);
       }, 900);
     }
+  }
+
+  slowBtn.addEventListener('click', handleSlowSubmit);
+  [urlInput, memoInput].forEach((input) => {
+    input.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.isComposing) return;
+      event.preventDefault();
+      handleSlowSubmit();
+    });
   });
 
   // === Reading stream — 작가의 느린 장면 아카이브 ===
