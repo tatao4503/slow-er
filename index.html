@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slowly — 숏폼을 천천히 다시 보는 곳</title>
+<link rel="canonical" href="https://tatao4503.github.io/slow-er">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@200;300;400;600&display=swap" rel="stylesheet">
 
 <meta name="description" content="지나가는 세상이 아닌, 멈춰지는 순간을 위해. 빠르게 소비한 숏폼을 천천히 다시 보고 기록하는 디지털 디톡스 플랫폼.">
 <meta name="theme-color" content="#0a0a08">
@@ -47,8 +51,6 @@
 }
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@200;300;400;600&display=swap');
-
   :root {
     --bg: #0a0a08;
     --fg: #e8e4dc;
@@ -196,6 +198,30 @@
     color: var(--accent);
   }
 
+  .skip-link {
+    position: fixed;
+    left: 18px;
+    top: 18px;
+    z-index: 10002;
+    transform: translateY(-140%);
+    border: 1px solid rgba(196, 168, 130, 0.55);
+    background: rgba(10, 10, 8, 0.92);
+    color: var(--fg);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    padding: 10px 14px;
+    text-decoration: none;
+    transition: transform 0.4s ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  a:focus-visible,
+  [role="button"]:focus-visible,
   button:focus-visible,
   input:focus-visible {
     outline: 1px solid var(--accent);
@@ -1838,9 +1864,10 @@
     background: rgba(196, 168, 130, 0.1);
   }
 </style>
-<script src="https://www.youtube.com/iframe_api" onerror="window.ytApiFailed = true"></script>
+<script async src="https://www.youtube.com/iframe_api" onerror="window.ytApiFailed = true"></script>
 </head>
 <body>
+<a class="skip-link" href="#videoPrompt">숏폼 입력으로 바로가기</a>
 
 <!-- Entrance -->
 <div class="entrance" id="entrance">
@@ -1951,6 +1978,8 @@
       <input type="url" class="url-input" id="urlInput"
              inputmode="url" autocomplete="off" spellcheck="false"
              aria-label="느리게 보고 싶은 URL"
+             aria-describedby="supportNote urlErrorMsg"
+             aria-invalid="false"
              placeholder="YouTube Shorts, TikTok, Reels URL을 놓아두세요">
       <p class="url-error-msg" id="urlErrorMsg" aria-live="polite"></p>
     </div>
@@ -3092,6 +3121,7 @@
     }
     if (urlInput) {
       urlInput.style.borderColor = 'var(--accent)';
+      urlInput.setAttribute('aria-invalid', 'true');
     }
   }
 
@@ -3102,6 +3132,7 @@
     }
     if (urlInput) {
       urlInput.style.borderColor = '';
+      urlInput.setAttribute('aria-invalid', 'false');
     }
   }
 
@@ -3246,10 +3277,12 @@
 
     function buildCard(data) {
       const card = document.createElement('article');
+      const bodyId = `stream-body-${String(data._id || data.title || 'item').replace(/[^a-zA-Z0-9_-]/g, '-')}`;
       card.className = 'stream-card';
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
       card.setAttribute('aria-expanded', 'false');
+      card.setAttribute('aria-controls', bodyId);
 
       const kicker = document.createElement('p');
       kicker.className = 'stream-card-kicker';
@@ -3272,6 +3305,7 @@
 
       const body = document.createElement('div');
       body.className = 'stream-card-body';
+      body.id = bodyId;
       body.textContent = data.body || '';
 
       const foot = document.createElement('p');
@@ -3312,6 +3346,7 @@
             if (!eRes.ok) continue;
             const data = await eRes.json();
             data._date = entry.date;
+            data._id = entry.id;
             loaded.push(data);
           } catch (e) { /* skip broken entry */ }
         }
