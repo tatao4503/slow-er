@@ -2005,18 +2005,6 @@
 
 <div class="divider" id="divider5"></div>
 
-<section class="scene" id="streamScene">
-  <div class="stream-section">
-    <p class="stream-label" id="streamLabel">지난 느린 장면</p>
-    <h2 class="stream-title" id="streamTitle">천천히 본 것들</h2>
-    <p class="stream-sub" id="streamSub">하루에 하나, 천천히 읽도록 남겨둔 글입니다. 눌러서 펼쳐 보세요.</p>
-    <div class="stream-list" id="streamList"></div>
-    <p class="stream-empty" id="streamEmpty">아직 첫 장면을 준비하고 있습니다.</p>
-  </div>
-</section>
-
-<div class="divider" id="dividerStream"></div>
-
 <section class="scene" id="memoryScene">
   <div class="memory-section">
     <p class="memory-label" id="memoryLabel">오늘 붙잡은 숏폼</p>
@@ -2107,6 +2095,21 @@
       </article>
     </div>
     <button class="pilot-copy" id="pilotCopyBtn" type="button">1분 테스트 스크립트 복사하기</button>
+  </div>
+</section>
+
+<div class="divider" id="dividerStream"></div>
+
+<section class="scene" id="streamScene">
+  <div class="stream-section">
+    <p class="stream-label" id="streamLabel">slow archive</p>
+    <h2 class="stream-title" id="streamTitle">슬로, 워의 느린 기록</h2>
+    <p class="stream-sub" id="streamSub">
+      숏폼을 붙잡은 뒤에 천천히 열어볼 수 있는 작은 글 아카이브입니다.
+      도구가 먼저, 글은 오래 머문 사람을 위한 여백으로 남겨둡니다.
+    </p>
+    <div class="stream-list" id="streamList"></div>
+    <p class="stream-empty" id="streamEmpty">아직 첫 장면을 준비하고 있습니다.</p>
   </div>
 </section>
 
@@ -3246,6 +3249,7 @@
       card.className = 'stream-card';
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
+      card.setAttribute('aria-expanded', 'false');
 
       const kicker = document.createElement('p');
       kicker.className = 'stream-card-kicker';
@@ -3281,7 +3285,10 @@
       card.appendChild(body);
       card.appendChild(foot);
 
-      const toggle = () => card.classList.toggle('open');
+      const toggle = () => {
+        const isOpen = card.classList.toggle('open');
+        card.setAttribute('aria-expanded', String(isOpen));
+      };
       card.addEventListener('click', toggle);
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
@@ -3315,9 +3322,7 @@
       } catch (e) {
         // 콘텐츠 없거나 file://로 열어 fetch 막힘 → 섹션 조용히 숨김
         if (scene) scene.style.display = 'none';
-        const d5 = document.getElementById('divider5');
         const ds = document.getElementById('dividerStream');
-        if (d5) d5.style.display = 'none';
         if (ds) ds.style.display = 'none';
       }
     }
